@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">dolphin</string>
+    <string name="title_activity_first">FirstActivity</string>
+    <string name="network_error">不好，网络出了点小问题...</string>
+</resources>
