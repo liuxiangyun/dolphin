@@ -19,6 +19,7 @@ public class AddPublicParameterInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
+        //数据添加在Url上
         HttpUrl modifiedUrl = request.url().newBuilder()
                 .addQueryParameter("Token", "")
                 .addQueryParameter("platform", "android")
