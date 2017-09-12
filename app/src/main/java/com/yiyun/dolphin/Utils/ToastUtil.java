@@ -54,15 +54,12 @@ public class ToastUtil {
      * @param isCenter
      */
     private static void toast(final String text, final int resId, final int duration, final boolean isCenter) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                final Toast toast = Toast.makeText(DolphinApplication.getInstance(), text != null ? text : UIUtil.getString(resId), duration);
-                if (isCenter) {
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                }
-                toast.show();
+        Runnable runnable = () -> {
+            final Toast toast = Toast.makeText(DolphinApplication.getInstance(), text != null ? text : UIUtil.getString(resId), duration);
+            if (isCenter) {
+                toast.setGravity(Gravity.CENTER, 0, 0);
             }
+            toast.show();
         };
         if (UIUtil.isRunMainThread()) {
             runnable.run();

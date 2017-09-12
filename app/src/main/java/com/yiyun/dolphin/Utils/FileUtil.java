@@ -17,7 +17,7 @@ public class FileUtil {
      *
      * @return
      */
-    public static String getDiskCacheDir() {
+    public static String getFitCacheDir() {
         String cachePath;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
