@@ -3,17 +3,14 @@ package com.yiyun.dolphin.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
-import com.orhanobut.logger.Logger;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.yiyun.dolphin.R;
-import com.yiyun.dolphin.Utils.NetworkUtil;
+import com.yiyun.dolphin.Utils.ToastUtil;
 import com.yiyun.dolphin.databinding.ActivityMainBinding;
-import com.yiyun.dolphin.model.http.ApiClient;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by xiangyun_liu on 2017/9/4.
@@ -22,40 +19,14 @@ import retrofit2.Response;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.d("onCreate ....");
 
-        mViewDataBinding.fabSendRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                netWorkCheck();
-
-                ApiClient.getApiService().getIndex().enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        mViewDataBinding.text1.setText(response.body());
-                        Logger.d("send request");
-
-                        startActivity(new Intent(MainActivity.this, FirstActivity.class));
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        mViewDataBinding.text1.setText(t.getMessage());
-                    }
-                });
-            }
-        });
+        RxView.clicks(mViewDataBinding.fabSendRequest).throttleFirst(5, TimeUnit.SECONDS).compose(bindToLifecycle())
+                .subscribe(onNext -> ToastUtil.toastShort("点击了按钮，我做的防抖处理，五秒钟之内只能点击一次"));
+        RxView.longClicks(mViewDataBinding.fabSendRequest).subscribe(onNext -> startActivity(new Intent(MainActivity.this, FirstActivity.class)));
     }
 
-    private void netWorkCheck() {
-        Logger.d("当前网络是否可用：" + NetworkUtil.isNetworkConnected()
-                + "\n当前使用的网络类型：" + NetworkUtil.getConnectedType()
-                + "\n当前使用的网络是否是WiFi网络" + NetworkUtil.isWifiConnectedType()
-                + "\n当前使用的网络是否是mobile网络" + NetworkUtil.isMobileConnectedType());
-    }
 
     @Override
     int getResLayoutId() {

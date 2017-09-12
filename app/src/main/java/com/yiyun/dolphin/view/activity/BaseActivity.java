@@ -18,7 +18,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends RxAppCompa
     protected B mViewDataBinding;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //使用DataBindingUtil设置ContentView
         mViewDataBinding = DataBindingUtil.setContentView(this, getResLayoutId());

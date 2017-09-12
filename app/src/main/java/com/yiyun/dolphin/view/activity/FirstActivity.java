@@ -1,66 +1,56 @@
 package com.yiyun.dolphin.view.activity;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.yiyun.dolphin.R;
+import com.yiyun.dolphin.databinding.ActivityFirstBinding;
+import com.yiyun.dolphin.model.http.RxSchedulersTransformer;
 
-public class FirstActivity extends AppCompatActivity {
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
+public class FirstActivity extends BaseActivity<ActivityFirstBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-                Test.getInstance(FirstActivity.this);
-
-                startAsyncTask();
+        Observable.create((ObservableOnSubscribe<String>) e -> {
+            for (int i = 0; i < 120; i++) {
+                Thread.sleep(1000);
+                e.onNext("wo bu zhi dao " + i);
             }
-        });
+        }).compose(RxSchedulersTransformer.OBSERVABLE_OI_TO_MAIN)
+                //不关联Rxlifecycle,在事件没执行完的时候关闭activity，就会出现内存泄漏
+                .compose(this.bindToLifecycle())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Logger.d(s);
+                        Toast.makeText(FirstActivity.this, s, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
-    void startAsyncTask() {
-        // This async task is an anonymous class and therefore has a hidden reference to the outer
-        // class MainActivity. If the activity gets destroyed before the task finishes (e.g. rotation),
-        // the activity instance will leak.
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                // Do some slow work in background
-                SystemClock.sleep(20000);
-                return null;
-            }
-        }.execute();
-    }
-
-    static class Test {
-        private static Test mTest;
-
-        public static Test getInstance(Context context) {
-            if (mTest == null) {
-                mTest = new Test(context);
-            }
-            return mTest;
-        }
-
-        private Test(Context context) {
-
-        }
+    @Override
+    int getResLayoutId() {
+        return R.layout.activity_first;
     }
 }

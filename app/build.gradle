@@ -69,4 +69,6 @@ dependencies {
     //Rxlifecycle 自动取消订阅,防止内存泄漏
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+    //Rxbinding
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
 }
