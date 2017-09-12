@@ -4,15 +4,17 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.yiyun.dolphin.ActivityController;
 
 /**
  * Created by xiangyun_liu on 2017/9/4.
+ * <p>
+ * 利用Rxlifecycle 自动取消订阅，需要继承至RxAppCompatActivity
  */
 
-public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity {
+public abstract class BaseActivity<B extends ViewDataBinding> extends RxAppCompatActivity {
     protected B mViewDataBinding;
 
     @Override

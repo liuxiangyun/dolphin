@@ -1,14 +1,15 @@
 package com.yiyun.dolphin.view.fragment;
 
-import android.support.v4.app.Fragment;
-
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.yiyun.dolphin.DolphinApplication;
 
 /**
  * Created by xiangyun_liu on 2017/9/7.
+ * <p>
+ * 利用Rxlifecycle 自动取消订阅，需要继承至RxFragment
  */
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends RxFragment {
 
     @Override
     public void onDestroy() {
