@@ -25,34 +25,34 @@ public class OkHttpClientSingle {
     private final static int CACHE_FILE_MAX_SIZE = 100 * 1024 * 1024;
 
     private OkHttpClientSingle() {
-
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS);
+        builder.readTimeout(READ_TIME_OUT, TimeUnit.SECONDS);
+        builder.writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS);
+        //错误重连
+        builder.retryOnConnectionFailure(true);
+        //Url添加公共参数
+        builder.addInterceptor(new AddPublicParameterInterceptor());
+        //debug模式时打印请求日志信息
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(httpLoggingInterceptor);
+        }
+        //添加缓存，设置缓存文件目录，及大小
+        Cache cache = new Cache(new File(FileUtil.getCacheDir(), CACHE_FILE_NAME), CACHE_FILE_MAX_SIZE);
+        builder.cache(cache);
+        //添加缓存拦截器用来配置缓存策略
+        builder.addInterceptor(new CacheInterceptor());
+        builder.addNetworkInterceptor(new CacheInterceptor());
+        mOkHttpClient = builder.build();
     }
 
     public static OkHttpClient getOkHttpClient() {
         if (mOkHttpClient == null) {
             synchronized (OkHttpClientSingle.class) {
                 if (mOkHttpClient == null) {
-                    OkHttpClient.Builder builder = new OkHttpClient.Builder();
-                    builder.connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS);
-                    builder.readTimeout(READ_TIME_OUT, TimeUnit.SECONDS);
-                    builder.writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS);
-                    //错误重连
-                    builder.retryOnConnectionFailure(true);
-                    //Url添加公共参数
-                    builder.addInterceptor(new AddPublicParameterInterceptor());
-                    //debug模式时打印请求日志信息
-                    if (BuildConfig.DEBUG) {
-                        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-                        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                        builder.addInterceptor(httpLoggingInterceptor);
-                    }
-                    //添加缓存，设置缓存文件目录，及大小
-                    Cache cache = new Cache(new File(FileUtil.getCacheDir(), CACHE_FILE_NAME), CACHE_FILE_MAX_SIZE);
-                    builder.cache(cache);
-                    //添加缓存拦截器用来配置缓存策略
-                    builder.addInterceptor(new CacheInterceptor());
-                    builder.addNetworkInterceptor(new CacheInterceptor());
-                    mOkHttpClient = builder.build();
+                    new OkHttpClientSingle();
                 }
             }
         }

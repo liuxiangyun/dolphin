@@ -22,9 +22,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        RxView.clicks(mViewDataBinding.fabSendRequest).throttleFirst(5, TimeUnit.SECONDS).compose(bindToLifecycle())
+        RxView.clicks(mViewDataBinding.fabSendRequest)
+                .throttleFirst(5, TimeUnit.SECONDS)
+                .compose(bindToLifecycle())
                 .subscribe(onNext -> ToastUtil.toastShort("点击了按钮，我做的防抖处理，五秒钟之内只能点击一次"));
-        RxView.longClicks(mViewDataBinding.fabSendRequest).subscribe(onNext -> startActivity(new Intent(MainActivity.this, FirstActivity.class)));
+        RxView.longClicks(mViewDataBinding.fabSendRequest)
+                .compose(bindToLifecycle())
+                .subscribe(onNext -> startActivity(new Intent(MainActivity.this, FirstActivity.class)));
     }
 
 
