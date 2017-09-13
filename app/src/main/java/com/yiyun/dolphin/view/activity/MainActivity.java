@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.yiyun.dolphin.R;
-import com.yiyun.dolphin.Utils.ToastUtil;
 import com.yiyun.dolphin.databinding.ActivityMainBinding;
+import com.yiyun.dolphin.model.entry.UserEntry;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,15 +17,20 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
+    private int age = 18;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        UserEntry userEntry = new UserEntry("我是小白", age);
+        mViewDataBinding.setUserEntry(userEntry);
+
         RxView.clicks(mViewDataBinding.fabSendRequest)
-                .throttleFirst(5, TimeUnit.SECONDS)
+                .throttleFirst(300, TimeUnit.MILLISECONDS)
                 .compose(bindToLifecycle())
-                .subscribe(onNext -> ToastUtil.toastShort("点击了按钮，我做的防抖处理，五秒钟之内只能点击一次"));
+                .subscribe(onNext -> userEntry.setAge(++age));
+
         RxView.longClicks(mViewDataBinding.fabSendRequest)
                 .compose(bindToLifecycle())
                 .subscribe(onNext -> startActivity(new Intent(MainActivity.this, FirstActivity.class)));

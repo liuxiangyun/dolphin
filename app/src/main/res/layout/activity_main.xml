@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <import
+            alias="User"
+            type="com.yiyun.dolphin.model.entry.UserEntry" />
+
+        <import type="com.yiyun.dolphin.persenter.MainPersenter" />
+
+        <variable
+            name="userEntry"
+            type="User" />
+
+        <variable
+            name="mainPersenter"
+            type="MainPersenter" />
+
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,12 +34,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/text_1"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text_1" />
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/text_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->mainPersenter.check(userEntry)}"
+                    android:text="@{userEntry.name}" />
+
+                <TextView
+                    android:id="@+id/text_user_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{mainPersenter::onClick}"
+                    android:text="@{String.valueOf(userEntry.age)}" />
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
 </layout>
