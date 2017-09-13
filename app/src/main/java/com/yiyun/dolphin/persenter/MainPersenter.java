@@ -10,7 +10,7 @@ import com.yiyun.dolphin.model.entry.UserEntry;
  */
 
 public class MainPersenter {
-    public void onClick(View v) {
+    public void toast(View v) {
         ToastUtil.toastShort("你点击了我");
     }
 

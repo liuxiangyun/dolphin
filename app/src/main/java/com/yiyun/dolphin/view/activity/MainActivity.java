@@ -6,10 +6,11 @@ import android.support.annotation.Nullable;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.yiyun.dolphin.R;
+import com.yiyun.dolphin.Utils.ToastUtil;
 import com.yiyun.dolphin.databinding.ActivityMainBinding;
 import com.yiyun.dolphin.model.entry.UserEntry;
-
-import java.util.concurrent.TimeUnit;
+import com.yiyun.dolphin.model.http.RxTransformer;
+import com.yiyun.dolphin.persenter.MainPersenter;
 
 
 /**
@@ -22,18 +23,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        UserEntry userEntry = new UserEntry("我是小白", age);
+        UserEntry userEntry = new UserEntry("小白", age);
         mViewDataBinding.setUserEntry(userEntry);
+        mViewDataBinding.setMainPersenter(new MainPersenter());
 
         RxView.clicks(mViewDataBinding.fabSendRequest)
-                .throttleFirst(300, TimeUnit.MILLISECONDS)
+                .compose(RxTransformer.CLICK_THROTTLE)
                 .compose(bindToLifecycle())
                 .subscribe(onNext -> userEntry.setAge(++age));
 
         RxView.longClicks(mViewDataBinding.fabSendRequest)
                 .compose(bindToLifecycle())
                 .subscribe(onNext -> startActivity(new Intent(MainActivity.this, FirstActivity.class)));
+
+        RxView.clicks(mViewDataBinding.textUserName)
+                .compose(RxTransformer.CLICK_THROTTLE)
+                .compose(bindToLifecycle())
+                .subscribe(onNext -> ToastUtil.toastShort("my name is " + mViewDataBinding.textUserName.getText()));
     }
 
 

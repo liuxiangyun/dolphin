@@ -6,7 +6,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.yiyun.dolphin.R;
 import com.yiyun.dolphin.databinding.ActivityFirstBinding;
-import com.yiyun.dolphin.model.http.RxSchedulersTransformer;
+import com.yiyun.dolphin.model.http.RxTransformer;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -23,7 +23,7 @@ public class FirstActivity extends BaseActivity<ActivityFirstBinding> {
                 Thread.sleep(1000);
                 e.onNext("wo bu zhi dao " + i);
             }
-        }).compose(RxSchedulersTransformer.OBSERVABLE_OI_TO_MAIN)
+        }).compose(RxTransformer.SCHEDULERS_OBSERVABLE_OI_TO_MAIN)
                 //不关联Rxlifecycle,在事件没执行完的时候关闭activity，就会出现内存泄漏
                 .compose(this.bindToLifecycle())
                 .subscribe(new Observer<String>() {
