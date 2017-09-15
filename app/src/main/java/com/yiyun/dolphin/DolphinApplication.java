@@ -12,7 +12,6 @@ import com.squareup.leakcanary.RefWatcher;
 
 /**
  * Created by xiangyun_liu on 2017/9/4.
- * Application
  */
 
 public class DolphinApplication extends Application {

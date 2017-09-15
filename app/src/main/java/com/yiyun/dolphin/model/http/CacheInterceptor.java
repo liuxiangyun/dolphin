@@ -1,9 +1,9 @@
 package com.yiyun.dolphin.model.http;
 
 import com.yiyun.dolphin.R;
-import com.yiyun.dolphin.Utils.NetworkUtil;
-import com.yiyun.dolphin.Utils.StringUtil;
-import com.yiyun.dolphin.Utils.ToastUtil;
+import com.yiyun.dolphin.utils.NetworkUtil;
+import com.yiyun.dolphin.utils.StringUtil;
+import com.yiyun.dolphin.utils.ToastUtil;
 
 import java.io.IOException;
 

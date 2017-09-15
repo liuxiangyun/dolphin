@@ -11,14 +11,19 @@ public class ApiClient {
     private static ApiService mApiService;
 
     private ApiClient() {
-
+        mApiService = RetrofitSingle.getRetrofit().create(ApiService.class);
     }
 
+    /**
+     * 获取ApiService对象
+     *
+     * @return
+     */
     public static ApiService getApiService() {
         if (mApiService == null) {
             synchronized (ApiClient.class) {
                 if (mApiService == null) {
-                    mApiService = RetrofitSingle.getRetrofit().create(ApiService.class);
+                    new ApiClient();
                 }
             }
         }

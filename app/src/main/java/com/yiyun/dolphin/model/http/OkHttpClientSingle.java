@@ -1,7 +1,7 @@
 package com.yiyun.dolphin.model.http;
 
 import com.yiyun.dolphin.BuildConfig;
-import com.yiyun.dolphin.Utils.FileUtil;
+import com.yiyun.dolphin.utils.FileUtil;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +32,7 @@ public class OkHttpClientSingle {
         //错误重连
         builder.retryOnConnectionFailure(true);
         //Url添加公共参数
-        builder.addInterceptor(new AddPublicParameterInterceptor());
+        builder.addInterceptor(new AddPublicParamsInterceptor());
         //debug模式时打印请求日志信息
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -48,6 +48,11 @@ public class OkHttpClientSingle {
         mOkHttpClient = builder.build();
     }
 
+    /**
+     * 获取OKHttpClient对象
+     *
+     * @return
+     */
     public static OkHttpClient getOkHttpClient() {
         if (mOkHttpClient == null) {
             synchronized (OkHttpClientSingle.class) {

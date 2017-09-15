@@ -1,7 +1,7 @@
 package com.yiyun.dolphin.model.http;
 
 import com.yiyun.dolphin.BuildConfig;
-import com.yiyun.dolphin.Utils.GsonUtil;
+import com.yiyun.dolphin.utils.GsonUtil;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -48,6 +48,11 @@ public class RetrofitSingle {
         mRetrofit = builder.build();
     }
 
+    /**
+     * 获取Retrofit对象
+     *
+     * @return
+     */
     public static Retrofit getRetrofit() {
         if (mRetrofit == null) {
             synchronized (RetrofitSingle.class) {

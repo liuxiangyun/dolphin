@@ -3,22 +3,18 @@
 
     <data>
 
-        <import type="com.yiyun.dolphin.Utils.StringUtil" />
+        <import type="com.yiyun.dolphin.utils.StringUtil" />
 
         <import type="android.view.View" />
 
         <import type="com.yiyun.dolphin.model.entry.UserEntry" />
 
-        <import type="com.yiyun.dolphin.persenter.MainPersenter" />
 
         <!--相当于创建对象-->
         <variable
             name="userEntry"
             type="UserEntry" />
 
-        <variable
-            name="mainPersenter"
-            type="MainPersenter" />
 
     </data>
 
@@ -46,14 +42,12 @@
                     android:id="@+id/text_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{()-> mainPersenter.check(userEntry)}"
                     android:text="@{StringUtil.handle(userEntry.name)}" />
 
                 <TextView
                     android:id="@+id/text_user_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{mainPersenter::toast}"
                     android:text="@{String.valueOf(userEntry.age)}"
                     android:visibility="@{userEntry.age==0 ? View.INVISIBLE : View.VISIBLE}" />
             </LinearLayout>

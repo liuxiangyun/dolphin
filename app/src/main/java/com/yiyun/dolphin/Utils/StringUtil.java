@@ -1,4 +1,4 @@
-package com.yiyun.dolphin.Utils;
+package com.yiyun.dolphin.utils;
 
 /**
  * Created by xiangyun_liu on 2017/9/4.
