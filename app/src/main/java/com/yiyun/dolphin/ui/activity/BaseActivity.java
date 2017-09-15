@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.yiyun.dolphin.ActivityController;
 import com.yiyun.dolphin.presenter.BasePresenter;
@@ -19,7 +20,7 @@ import com.yiyun.dolphin.ui.view.BaseView;
 public abstract class BaseActivity<V extends BaseView, P extends BasePresenter, B extends ViewDataBinding> extends RxAppCompatActivity {
     private V mView;
     private P mPresenter;
-    protected B mBinding;
+    private B mBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +76,24 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter, 
      */
     protected P getPresenter() {
         return mPresenter;
+    }
+
+    /**
+     * 获取ViewDataBinding对象
+     *
+     * @return
+     */
+    protected B getBinding() {
+        return mBinding;
+    }
+
+    /**
+     * 实现BaseView中的bindLifecycle
+     *
+     * @return
+     */
+    public LifecycleTransformer bindLifecycle() {
+        return bindToLifecycle();
     }
 
     @Override

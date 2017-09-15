@@ -2,17 +2,16 @@ package com.yiyun.dolphin.presenter;
 
 import com.yiyun.dolphin.model.http.ApiClient;
 import com.yiyun.dolphin.model.http.RxTransformer;
-import com.yiyun.dolphin.ui.view.MainView;
+import com.yiyun.dolphin.ui.view.FirstView;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by xiangyun_liu on 2017/9/14.
+ * Created by xiangyun_liu on 2017/9/15.
  */
 
-public class MainPresenter extends BasePresenter<MainView> {
-
+public class FirstPresenter extends BasePresenter<FirstView> {
     public void refresh() {
         ApiClient.getApiService().refresh()
                 .compose(RxTransformer.SCHEDULERS_OBSERVABLE_OI_TO_MAIN)

@@ -1,5 +1,6 @@
 package com.yiyun.dolphin.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -24,12 +25,12 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter, Activity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UserEntry userEntry = new UserEntry("小白", age);
-        mBinding.setUserEntry(userEntry);
+        getBinding().setUserEntry(userEntry);
 
-        RxView.clicks(mBinding.fabSendRequest)
+        RxView.clicks(getBinding().fabSendRequest)
                 .compose(RxTransformer.CLICK_THROTTLE)
                 .compose(bindToLifecycle())
-                .subscribe(onNext -> refresh());
+                .subscribe(onNext -> startActivity(new Intent(MainActivity.this, FirstActivity.class)));
     }
 
     @Override
@@ -54,6 +55,6 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter, Activity
 
     @Override
     public void refreshResult(boolean isSuccess) {
-        ToastUtil.toastLong(isSuccess ? "刷新成功" : "刷新失败");
+        ToastUtil.toastShort(isSuccess ? "刷新成功" : "刷新失败");
     }
 }

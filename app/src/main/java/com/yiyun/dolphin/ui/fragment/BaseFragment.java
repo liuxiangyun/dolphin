@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.yiyun.dolphin.DolphinApplication;
 import com.yiyun.dolphin.presenter.BasePresenter;
@@ -62,7 +63,6 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter, 
      */
     protected abstract int getResLayoutId();
 
-
     /**
      * 创建View
      *
@@ -84,6 +84,24 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter, 
      */
     protected P getPresenter() {
         return mPresenter;
+    }
+
+    /**
+     * 获取ViewDataBinding
+     *
+     * @return
+     */
+    protected B getBinding() {
+        return mBinding;
+    }
+
+    /**
+     * 实现BaseView中的bindLifecycle
+     *
+     * @return
+     */
+    public LifecycleTransformer bindLifecycle() {
+        return bindToLifecycle();
     }
 
     @Override
