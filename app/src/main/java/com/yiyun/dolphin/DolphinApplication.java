@@ -14,7 +14,7 @@ import com.yiyun.dolphin.model.http.OkHttpClientSingle;
 import java.io.IOException;
 
 /**
- * Created by xiangyun_liu on 2017/9/4.
+ * @author xiangyun_liu
  */
 
 public class DolphinApplication extends Application {
@@ -46,15 +46,22 @@ public class DolphinApplication extends Application {
         mMainThreadId = Thread.currentThread().getId();
         mMainThreadHandler = new Handler();
 
-        //OKHttp初始化设置Https需要的证书
+//        initHttps();
+        initLogger();
+        initLeakCanary();
+    }
+
+    /**
+     * OKHttp初始化设置Https需要的证书
+     */
+    private void initHttps() {
         try {
             OkHttpClientSingle.init(getAssets().open("srca.cer"));
         } catch (IOException e) {
             Logger.d(e);
         }
-        initLogger();
-        initLeakCanary();
     }
+
 
     /**
      * 设置Logger

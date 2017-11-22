@@ -11,7 +11,7 @@ import retrofit2.http.GET;
  */
 
 public interface ApiService {
-    String API_ADDRESS = "http://www.github.com/";
+    String API_ADDRESS = "https://www.github.com/";
 
     @GET("https://kyfw.12306.cn/otn/")
     Observable<String> refresh();
